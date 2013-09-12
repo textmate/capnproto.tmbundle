@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string>gz-ohaqyrf@znpebzngrf.pbz</string>
+	<key>contactName</key>
+	<string>Allan Odgaard</string>
+	<key>description</key>
+	<string>Data interchange format similar to protobuf</string>
+	<key>name</key>
+	<string>Cap’n Proto</string>
+	<key>uuid</key>
+	<string>B5EEC818-98AC-486C-B158-966F88511EC0</string>
+</dict>
+</plist>
