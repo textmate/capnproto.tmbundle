@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>autoScrollOutput</key>
+	<true/>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+require "#{ENV['TM_SUPPORT_PATH']}/lib/textmate"
+require "#{ENV['TM_SUPPORT_PATH']}/lib/tm/executor"
+require "#{ENV['TM_SUPPORT_PATH']}/lib/tm/save_current_document"
+require "shellwords"
+
+abort "Unsaved schema" unless ENV['TM_FILEPATH']
+
+filepath = ENV['TM_FILEPATH']
+language = ENV['TM_CAPNP_LANGUAGE'] || 'c++'
+compiler = ENV['TM_CAPNP_COMPILER'] || 'capnp'
+
+dirpath    = File.dirname(filepath)
+subcommand = "compile --verbose -o#{language}:#{dirpath}"
+identifier = "id --verbose"
+
+TextMate::Executor.make_project_master_current_document
+args = Shellwords.split(compiler) &lt;&lt; Shellwords.split(subcommand) &lt;&lt; filepath
+
+TextMate::Executor.run(args, :version_args      =&gt; ["--version"],
+                             :use_hashbang      =&gt; false,
+                             :verb              =&gt; "Compiling",
+                             :noun              =&gt; "#{ ENV['TM_DISPLAYNAME'] }") do |str, type|
+  if type == :err
+    str = TextMate::Executor.send :linkify_file_references, str, dirpath
+    str = %Q[
+        &lt;span class="stderr"&gt;#{ str }&lt;/span&gt;]
+  else
+    str = %Q[
+        &lt;span class="stderr"&gt;
+        Successfully compiled Cap‘n’p schema #{ ENV['TM_DISPLAYNAME'] }&lt;br&gt;
+        Files written to #{ dirpath }&lt;br&gt;
+        #{ str }&lt;/span&gt;]
+  end
+end
+
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>@r</string>
+	<key>name</key>
+	<string>Compile to C++</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>scope</key>
+	<string>source.capnp</string>
+	<key>semanticClass</key>
+	<string>process.run.capnp</string>
+	<key>uuid</key>
+	<string>F14A2515-FC96-4A2B-BEE1-D2CB6D04C68E</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>
