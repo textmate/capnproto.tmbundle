@@ -55,13 +55,13 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(0x\h+|\d+(\.\d+)?)\b</string>
+			<string>\b(0x[0-9A-Fa-f]+|\d+(\.\d+)?)\b</string>
 			<key>name</key>
 			<string>constant.numeric.capnp</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>@0x\h+</string>
+			<string>@0x[0-9A-Fa-f]+</string>
 			<key>name</key>
 			<string>constant.numeric.unique-id.capnp</string>
 		</dict>
